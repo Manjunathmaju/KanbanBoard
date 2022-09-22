@@ -4,6 +4,8 @@ import SortTask from "./SortTask/SortTask";
 import { Title } from "./StyleComponents/Button.style";
 import UserInput from "./UserInput/UserInput";
 import dbConnector from "./DbConnector";
+import DisplayCards from "./DisplayCards";
+
 const connectionObj = dbConnector();
 
 function KanbanBoard() {
@@ -11,7 +13,7 @@ function KanbanBoard() {
   const [arrStore, setArrStore] = useState(connectionObj.get());
 
   const addTask = (value) => {
-    const taskObj = { task: value, status: "open" };
+    const taskObj = { task: value, status: "requested" };
     connectionObj.insert(taskObj);
     setArrStore(connectionObj.get());
     setTimeout(() => {
@@ -34,6 +36,7 @@ function KanbanBoard() {
           addTask={addTask}
         ></UserInput>
       ) : null}
+      <DisplayCards arr={arrStore}/>
     </div>
   );
 }

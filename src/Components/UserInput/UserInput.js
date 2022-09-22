@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import  ReactDOM from 'react-dom';
+import { StyleUserInputDiv,StyledButton } from '../StyleComponents/Button.style';
 
 function UserInput({toggleInputComp  ,addTask}) {
     const [text,setText]=useState();
@@ -14,11 +15,17 @@ function UserInput({toggleInputComp  ,addTask}) {
     }
 
   return (
-    ReactDOM.createPortal( <div>
+    ReactDOM.createPortal( 
+      <StyleUserInputDiv>
+        <h5>Enter the task!</h5>
         <input type='text' onChange={(e)=>handleOnchange(e.target.value)}/>
-        <button onClick={handleOnclick}>Add</button>
-        <button onClick={toggleInputComp}>Cancal</button>
-    </div>, document.getElementById("modalRoot"))
+        <div>
+          <br/>
+        <StyledButton  color='blueviolet' onClick={handleOnclick}>Add</StyledButton>
+        <StyledButton color='red' onClick={toggleInputComp}>Cancal</StyledButton>
+        </div>
+        </StyleUserInputDiv>
+   , document.getElementById("modalRoot"))
   );
 
 }

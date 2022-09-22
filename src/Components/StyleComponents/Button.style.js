@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Popup from "reactjs-popup";
 
 export const Title=styled.h1`
 background-color:lightblue;
@@ -11,7 +10,7 @@ padding: 1%;
 `
 
 export const StyledButton=styled.button`
-background-color: blueviolet;
+background-color: ${props=>props.color};
 border: none;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 font-weight: bolder;
@@ -20,21 +19,20 @@ border-radius: 6%;
 `
 
 
-export const StyleParentDiv=styled.div`
+export const StyleUserInputDiv=styled.div`
 background-color:lightblue;
+float: right;
 `
 
 export const Select=styled.select`
 float: right;
 `
 
-export const StyelChildDiv=styled.div`
+export const StyelDiv=styled.div`
 display: inline;
 padding-left: 30%;
-border-right:3px solid lightsalmon;
-border-top:3px solid burlywood;
+border:3px solid lightsalmon;
 text-align: center;
-border-bottom:3px solid lightsalmon;
 height: 300px;
 box-sizing: border-box;
 `

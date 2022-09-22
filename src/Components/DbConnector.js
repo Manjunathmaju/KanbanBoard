@@ -1,6 +1,13 @@
 import React from "react";
 
-const arr = [];
+const arr = [
+  { task: "Todo list", status: "completed" },
+  { task: "react", status: "completed" },
+  {task:'typescript',status:'requested'},
+  {task:'stylecomponents',status:'inprogress'},
+  {task:'kanbanboard',status:'inprogress'},
+];
+
 function dbConnector() {
   const fetchData = () => {
     return [...arr];
@@ -10,9 +17,9 @@ function dbConnector() {
   };
 
   return {
-    insert:insertData,
-    get:fetchData
-  }
+    insert: insertData,
+    get: fetchData,
+  };
 }
 
 export default dbConnector;
