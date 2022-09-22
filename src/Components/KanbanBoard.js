@@ -1,33 +1,47 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import AddButton from "./AddButton/AddButton";
 import SortTask from "./SortTask/SortTask";
 import { Title } from "./StyleComponents/Button.style";
 import UserInput from "./UserInput/UserInput";
 import dbConnector from "./DbConnector";
 import DisplayCards from "./DisplayCards";
-
+import { UserProvider } from "./Tasks/UserContext";
 const connectionObj = dbConnector();
+
+
+const array = [
+  { task: "Todo list", id: "99", status: "completed" },
+  { task: "react", id: "33", status: "completed" },
+  { task: "typescript", id: "22", status: "requested" },
+  { task: "stylecomponents", id: "11", status: "inprogress" },
+  { task: "kanbanboard", id: "00", status: "inprogress" },
+];
+
 
 function KanbanBoard() {
   const [toggleInputCompStatus, setToggleInputComp] = useState(false);
   const [arrStore, setArrStore] = useState(connectionObj.get());
+const boardArr={requested:[],inprogress:[],completed:[]};
 
+const handleBoardArr=()=>{
+
+}
   const addTask = (value) => {
-    const taskObj = { task: value, status: "requested" };
+    const taskObj = { task: value, id:Date.now(),status: "requested" };
     connectionObj.insert(taskObj);
     setArrStore(connectionObj.get());
-    setTimeout(() => {
-      console.log(arrStore);
-    }, 1000);
-
   };
+
+  const UpdateState=(cards)=>{
+    setArrStore(cards)
+  }
 
   const toggleInputComp = () => {
     setToggleInputComp((prevState) => !prevState);
   };
 
   return (
-    <div>
+    <>
       <Title>KanBanBoard</Title>
       <AddButton toggleInputComp={toggleInputComp} />
       {toggleInputCompStatus ? (
@@ -36,8 +50,8 @@ function KanbanBoard() {
           addTask={addTask}
         ></UserInput>
       ) : null}
-      <DisplayCards arr={arrStore}/>
-    </div>
+      <DisplayCards mainArr={arrStore} UpdateState={UpdateState}/>
+    </>
   );
 }
 // function databaseAbstracT(){
@@ -47,7 +61,7 @@ function KanbanBoard() {
 //     delete()
 
 // }
-{
+
   /* <kanborad>
   <container>
     const [arr,setArr]=useState()
@@ -64,7 +78,7 @@ function KanbanBoard() {
     </display>
   </container>
 </kanborad>; */
-}
+
 
 const tasks = [
   "TodoList",
