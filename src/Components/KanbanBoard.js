@@ -4,22 +4,16 @@ import { Title } from "./StyleComponents/Button.style";
 import UserInput from "./UserInput/UserInput";
 import dbConnector from "./DbConnector";
 import DisplayCards from "./DisplayCards";
+
 const connectionObj = dbConnector();
 
 export const CardContext =  createContext();
-// const array = [
-//   { task: "Todo list", id: "99", status: "completed" },
-//   { task: "react", id: "33", status: "completed" },
-//   { task: "typescript", id: "22", status: "requested" },
-//   { task: "stylecomponents", id: "11", status: "inprogress" },
-//   { task: "kanbanboard", id: "00", status: "inprogress" },
-// ];
 
 
 function KanbanBoard() {
   const [toggleInputCompStatus, setToggleInputComp] = useState(false);
   const [arrStore, setArrStore] = useState(connectionObj.get());
-
+// console.log(arrStore);
 
   const addTask = (value) => {
     const taskObj = { task: value, id:Date.now(),status: "requested" };
@@ -33,6 +27,7 @@ function KanbanBoard() {
 
   return (
     <CardContext.Provider value={{arrStore,setArrStore}}>
+    
       <Title>KanBanBoard</Title>
       <AddButton toggleInputComp={toggleInputComp} />
       {toggleInputCompStatus && (
@@ -43,8 +38,11 @@ function KanbanBoard() {
       ) }
       <DisplayCards/>
     </CardContext.Provider>
+    
   );
 }
+
+
 // function databaseAbstracT(){
 //     const arr
 //     fetch()

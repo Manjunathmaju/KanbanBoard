@@ -7,10 +7,11 @@ import {
   StyelDivContainer,
 } from "./DisplayCard.style";
 import { CardContext } from "./KanbanBoard";
+import CardContainer from "./Tasks/CardContainer";
 
 function DisplayCards() {
   const { arrStore, setArrStore } = useContext(CardContext);
-
+console.log(arrStore);
   const dropCard = useCallback(
     (id, targetStatus) => {
       arrStore.map((element) => {
@@ -22,7 +23,10 @@ function DisplayCards() {
       setArrStore(arrStore);
     },
     [arrStore]
+  
   );
+
+
 
   const [, dropInpro] = useDrop(
     () => ({
@@ -69,50 +73,51 @@ function DisplayCards() {
 
   return (
     <StyelDivContainer>
-      <StyleDivList color="lightslategrey" ref={dropReq}>
-        <StyleHeading color="lightslategrey">Requested</StyleHeading>
-        {arrStore.map(
-          (element) =>
-            element.status === "requested" && (
-              <Card
-                key={element.id}
-                task={element.task}
-                id={element.id}
-                status={element.status}
-              />
-            )
-        )}
-      </StyleDivList>
-      <StyleDivList color="lightslategrey" ref={dropInpro}>
-        <StyleHeading color="lightslategrey">inprogress</StyleHeading>
-        {arrStore.map(
-          (element) =>
-            element.status === "inprogress" && (
-              <Card
-                key={element.id}
-                task={element.task}
-                id={element.id}
-                status={element.status}
-              />
-            )
-        )}
-      </StyleDivList>
-      <StyleDivList color="lightslategrey" ref={dropComp}>
-        <StyleHeading color="lightslategrey">completed</StyleHeading>
-        {arrStore.map(
-          (element) =>
-            element.status === "completed" && (
-              <Card
-                key={element.id}
-                task={element.task}
-                id={element.id}
-                status={element.status}
-              />
-            )
-        )}
-      </StyleDivList>
+ <StyleDivList color="lightslategrey">
+      <CardContainer data={getObj(element.task, element.status, element.id)} />
+    </StyleDivList>
+      {/* {arrStore.map(renderCardContainer)} */}
     </StyelDivContainer>
   );
+}
+
+function dataProvider(object){
+  for (const key in object) {
+renderCardContainer(key)      
+    }
+  }
+
+
+
+function renderCardContainer(element) {
+  if (element.status === "requested") {
+    return renderStyledCardContainer(element);
+  }
+
+  if (element.status === "inprogress") {
+    return renderStyledCardContainer(element);
+  }
+  if (element.status === "completed") {
+    return renderStyledCardContainer(element);
+  }
+}
+
+function renderStyledCardContainer(element) {
+  return (
+    <StyleDivList color="lightslategrey">
+      <CardContainer data={getObj(element.task, element.status, element.id)} />
+    </StyleDivList>
+  );
+}
+
+function getObj(task, status, id) {
+  const propObj = {
+    status: status,
+    task: task,
+    id: id,
+  };
+
+  return propObj;
 }
 
 export default DisplayCards;
