@@ -1,111 +1,118 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { useDrop } from "react-dnd";
 import Card from "./Tasks/Card";
-import { StyleDivList, StyleHeading } from "./DisplayCard.style";
+import {
+  StyleDivList,
+  StyleHeading,
+  StyelDivContainer,
+} from "./DisplayCard.style";
 import { CardContext } from "./KanbanBoard";
-import { UserConsumer } from "./Tasks/UserContext";
-// import { UserConsumer } from "../Tasks/UserContext";
 
+function DisplayCards() {
+  const { arrStore, setArrStore } = useContext(CardContext);
 
+  const dropCard = useCallback(
+    (id, targetStatus) => {
+      arrStore.map((element) => {
+        if (element.id === id) {
+          element.status = targetStatus;
+        }
+        return element;
+      });
+      setArrStore(arrStore);
+    },
+    [arrStore]
+  );
 
-function DisplayCards({ mainArr,UpdateState }) {
-  useEffect(() => {
-    console.log("hi i am useEffect");
-  });
-  const cardsArr = [[], [], []];
-  
-  mainArr.map((element) => {
-    element.status === "completed"
-      ? cardsArr[2].push(
-          <Card key={element.id} task={element.task} id={element.id} />
-        )
-      : element.status === "inprogress"
-      ? cardsArr[1].push(
-          <Card key={element.id} task={element.task} id={element.id} />
-        )
-      : cardsArr[0].push(
-          <Card key={element.id} task={element.task} id={element.id} />
-        );
-  });
-  
-  const dropCard = (id) => {
-    
-    mainArr.map((element)=>{})
-    UpdateState()
-    console.log(id.status);
-    // arr[0].map(card => console.log(card))
-  };
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "card",
-    drop: (item) => dropCard(item),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+  const [, dropInpro] = useDrop(
+    () => ({
+      accept: "card",
+      drop: (item) => {
+        if (item.status === "requested") {
+          dropCard(item.id, "inprogress");
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
     }),
-  }));
-let val;
+    [dropCard]
+  );
+  const [, dropReq] = useDrop(
+    () => ({
+      accept: "card",
+      drop: (item) => {
+        if (item.status === "inprogress") {
+          dropCard(item.id, "requested");
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }),
+    [dropCard]
+  );
+  const [, dropComp] = useDrop(
+    () => ({
+      accept: "card",
+      drop: (item) => {
+        if (item.status === "inprogress") {
+          dropCard(item.id, "completed");
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }),
+    [dropCard]
+  );
+
   return (
-    <div>
-    {(value) => {
-      return <h1>{value[0].task}</h1>;
-    }}
-
-      <StyleDivList color="lightslategrey">
+    <StyelDivContainer>
+      <StyleDivList color="lightslategrey" ref={dropReq}>
         <StyleHeading color="lightslategrey">Requested</StyleHeading>
-        {mainArr.map((element)=>{return(element.status==='requested'?<Card key={element.id} task={element.task} id={element.id} status={element.status} />:console.log('first'))})}
-        {/* {cardsArr[0]} */}
+        {arrStore.map(
+          (element) =>
+            element.status === "requested" && (
+              <Card
+                key={element.id}
+                task={element.task}
+                id={element.id}
+                status={element.status}
+              />
+            )
+        )}
       </StyleDivList>
-      <StyleDivList color="lightslategrey" ref={drop}>
+      <StyleDivList color="lightslategrey" ref={dropInpro}>
         <StyleHeading color="lightslategrey">inprogress</StyleHeading>
-        {mainArr.map((element)=>{return(element.status==='inprogress'?<Card key={element.id} task={element.task} id={element.id} status={element.status}/>:console.log('second'))})}
-
-        {/* {cardsArr[1]} */}
+        {arrStore.map(
+          (element) =>
+            element.status === "inprogress" && (
+              <Card
+                key={element.id}
+                task={element.task}
+                id={element.id}
+                status={element.status}
+              />
+            )
+        )}
       </StyleDivList>
-      <StyleDivList color="lightslategrey">
+      <StyleDivList color="lightslategrey" ref={dropComp}>
         <StyleHeading color="lightslategrey">completed</StyleHeading>
-        { mainArr.map((element)=>{
-        return( element.status==='completed'?<Card key={element.id} task={element.task} id={element.id} status={element.status}/>:console.log('third'))})}
-         
-         {/* {basket.map(pet => <PetCard id={pet.id} name={pet.name} />)} */}
-        {/* {cardsArr[2]} */}
+        {arrStore.map(
+          (element) =>
+            element.status === "completed" && (
+              <Card
+                key={element.id}
+                task={element.task}
+                id={element.id}
+                status={element.status}
+              />
+            )
+        )}
       </StyleDivList>
-
-    </div>
+    </StyelDivContainer>
   );
 }
 
 export default DisplayCards;
-
-//   const sortedTasks = getSortedTasks(arr);
-
-//   return (
-//     <StyelDivContainer>
-//       <StyleDivList  color="lightblue">
-//         <StyleHeading color="lightblue">Requested </StyleHeading>
-//         <StyleCard> {sortedTasks[0]}</StyleCard>
-//       </StyleDivList>
-//       <StyleDivList color="lightgreen">
-//         <StyleHeading color="lightgreen">Inprogress</StyleHeading>
-//         <StyleCard>{sortedTasks[1]}</StyleCard>
-//       </StyleDivList>
-//       <StyleDivList color="lightslategrey">
-//         <StyleHeading color="lightslategrey">Completed</StyleHeading>
-//         <StyleCard>{sortedTasks[2]}</StyleCard>
-//       </StyleDivList>
-//     </StyelDivContainer>
-//   );
-// }
-
-// const getSortedTasks = (arr) => {
-//   const sortedTasks = [[], [], []];
-
-//   arr.forEach((element) => {
-//     element.status === "completed"
-//       ? sortedTasks[2].push(<StyleCardText  >{element.task}</StyleCardText>)
-//       : element.status === "inprogress"
-//       ? sortedTasks[1].push(<StyleCardText>{element.task}</StyleCardText>)
-//       : sortedTasks[0].push(<StyleCardText >{element.task}</StyleCardText>);
-//   });
-
-//   return [...sortedTasks];
-// };

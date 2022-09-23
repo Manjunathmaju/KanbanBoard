@@ -1,57 +1,48 @@
 import React, { createContext, useState } from "react";
 import AddButton from "./AddButton/AddButton";
-import SortTask from "./SortTask/SortTask";
 import { Title } from "./StyleComponents/Button.style";
 import UserInput from "./UserInput/UserInput";
 import dbConnector from "./DbConnector";
 import DisplayCards from "./DisplayCards";
-import { UserProvider } from "./Tasks/UserContext";
 const connectionObj = dbConnector();
 
-
-const array = [
-  { task: "Todo list", id: "99", status: "completed" },
-  { task: "react", id: "33", status: "completed" },
-  { task: "typescript", id: "22", status: "requested" },
-  { task: "stylecomponents", id: "11", status: "inprogress" },
-  { task: "kanbanboard", id: "00", status: "inprogress" },
-];
+export const CardContext =  createContext();
+// const array = [
+//   { task: "Todo list", id: "99", status: "completed" },
+//   { task: "react", id: "33", status: "completed" },
+//   { task: "typescript", id: "22", status: "requested" },
+//   { task: "stylecomponents", id: "11", status: "inprogress" },
+//   { task: "kanbanboard", id: "00", status: "inprogress" },
+// ];
 
 
 function KanbanBoard() {
   const [toggleInputCompStatus, setToggleInputComp] = useState(false);
   const [arrStore, setArrStore] = useState(connectionObj.get());
-const boardArr={requested:[],inprogress:[],completed:[]};
 
-const handleBoardArr=()=>{
 
-}
   const addTask = (value) => {
     const taskObj = { task: value, id:Date.now(),status: "requested" };
     connectionObj.insert(taskObj);
     setArrStore(connectionObj.get());
-  };
-
-  const UpdateState=(cards)=>{
-    setArrStore(cards)
-  }
+  };  
 
   const toggleInputComp = () => {
     setToggleInputComp((prevState) => !prevState);
   };
 
   return (
-    <>
+    <CardContext.Provider value={{arrStore,setArrStore}}>
       <Title>KanBanBoard</Title>
       <AddButton toggleInputComp={toggleInputComp} />
-      {toggleInputCompStatus ? (
+      {toggleInputCompStatus && (
         <UserInput
           toggleInputComp={toggleInputComp}
           addTask={addTask}
-        ></UserInput>
-      ) : null}
-      <DisplayCards mainArr={arrStore} UpdateState={UpdateState}/>
-    </>
+        />
+      ) }
+      <DisplayCards/>
+    </CardContext.Provider>
   );
 }
 // function databaseAbstracT(){
@@ -80,13 +71,13 @@ const handleBoardArr=()=>{
 </kanborad>; */
 
 
-const tasks = [
-  "TodoList",
-  "KanbanBoard",
-  "JavaScript",
-  "React",
-  "TypeScript",
-  "Stylecomponents",
-  "Redux",
-];
+// const tasks = [
+//   "TodoList",
+//   "KanbanBoard",
+//   "JavaScript",
+//   "React",
+//   "TypeScript",
+//   "Stylecomponents",
+//   "Redux",
+// ];
 export default KanbanBoard;

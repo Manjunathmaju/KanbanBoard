@@ -1,14 +1,12 @@
 import React from "react";
 import { useDrag } from "react-dnd";
 import {
-  StyleDivList,
-  StyleHeading,
   StyleCard,
   StyleCardText,
 } from "../DisplayCard.style";
 
 function Card({ task, id, status }) {
-  const [isDragging, drag] = useDrag(
+  const [, drag] = useDrag(
     () => ({
       type: "card",
       item: {  id,task,status },

@@ -1,4 +1,3 @@
-import React from "react";
 
 const arr = [
   { task: "Todo list", id: "99", status: "completed" },

@@ -20,7 +20,7 @@ function UserInput({toggleInputComp  ,addTask}) {
         <h5>Enter the task!</h5>
         <input type='text' onChange={(e)=>handleOnchange(e.target.value)}/>
         <div>
-          <br/>
+        <br/>
         <StyledButton  color='blueviolet' onClick={handleOnclick}>Add</StyledButton>
         <StyledButton color='red' onClick={toggleInputComp}>Cancal</StyledButton>
         </div>

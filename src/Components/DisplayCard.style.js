@@ -1,41 +1,32 @@
 import styled from "styled-components";
 
 export const StyelDivContainer = styled.div`
-  box-shadow: inset;
-  height: 20%;
-  border: none;
+display:flex;
+flex-direction: row;
   margin: auto;
-  padding-left: 10%;
-  align-items: center;
-  justify-content: center;
-  /* color:lightslategrey */
+  width: 100%;
+  margin-left: 100px;
+
 `;
-export const StyleDivList = styled(StyelDivContainer)`
+export const StyleDivList = styled.div`
   border: 3px solid ${(props) => props.color};
-  padding-left: 0%;
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bolder;
-  display: inline-block;
-  width: 25%;
-  max-width: 25%;
-  height: 30%;
-  max-height: 30%;
-  margin: 5px;
-  position: static;
-
-  /* position: relative; */
-bottom: 0;
+  width: 250px;
+  height: 500px;
+  margin-left: 100px;
 `;
+
 export const StyleHeading = styled.div`
   background-color: ${(props) => props.color};
 `;
-export const StyleCard = styled(StyleHeading)`
+export const StyleCard = styled.div`
   margin: 5%;
   margin-left: 15%;
   width: 80px;
   max-width: 80px;
-  height: 90%;
+  /* height: 90%; */
   /* position: absolute; */
   background-color: whitesmoke;
 `;

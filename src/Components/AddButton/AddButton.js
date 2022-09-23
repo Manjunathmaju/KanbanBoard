@@ -9,7 +9,7 @@ function AddButton({toggleInputComp}) {
 
   return (
     <div>
-      <StyledButton onClick={displayForm} >Add Card</StyledButton>
+      <StyledButton  color='blueviolet' onClick={displayForm} >Add Card</StyledButton>
     </div>
   );
 }

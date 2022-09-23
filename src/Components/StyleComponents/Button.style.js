@@ -21,7 +21,9 @@ border-radius: 6%;
 
 export const StyleUserInputDiv=styled.div`
 background-color:lightblue;
-float: right;
+position: absolute;
+margin-top: 150px;
+border-radius: 5px;
 `
 
 export const Select=styled.select`
