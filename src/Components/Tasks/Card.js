@@ -5,7 +5,10 @@ import {
   StyleCardText,
 } from "../DisplayCard.style";
 
-function Card({ task, id, status }) {
+function Card({obj}) {
+  const id=obj.id
+  const task=obj.task
+  const status=obj.status;
   const [, drag] = useDrag(
     () => ({
       type: "card",
@@ -18,7 +21,7 @@ function Card({ task, id, status }) {
   );
   return (
     <>
-      <StyleCard >
+      <StyleCard ref={drag}>
         <StyleCardText ref={drag}>{task}</StyleCardText>
       </StyleCard>
     </>

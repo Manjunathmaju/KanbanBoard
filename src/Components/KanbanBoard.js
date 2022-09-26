@@ -13,13 +13,13 @@ export const CardContext =  createContext();
 function KanbanBoard() {
   const [toggleInputCompStatus, setToggleInputComp] = useState(false);
   const [arrStore, setArrStore] = useState(connectionObj.get());
-// console.log(arrStore);
 
   const addTask = (value) => {
     const taskObj = { task: value, id:Date.now(),status: "requested" };
     connectionObj.insert(taskObj);
     setArrStore(connectionObj.get());
   };  
+  // console.log(arrStore);
 
   const toggleInputComp = () => {
     setToggleInputComp((prevState) => !prevState);
